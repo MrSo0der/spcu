@@ -2,18 +2,18 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import time
-import RPi.GPIO as GPIO
-from RPLCD.i2c import CharLCD
+import lgpio
+from LCD import LCD
 
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
 
-BUTTON_PIN = 17
+BUTTON_GPIO = 24
+GPIO_CHIP = 0
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+chip = lgpio.gpiochip_open(GPIO_CHIP)
+lgpio.gpio_claim_input(chip, BUTTON_GPIO)
 
-lcd = CharLCD('PCF8574', 0x27)   # если не работает — поменяй на 0x3F
 
 def cosine(v1, v2):
     return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
@@ -56,9 +56,9 @@ def recognize_gesture(landmarks):
         return "CALL"
 
     return "UNKNOWN"
-
+lcd = LCD()
 lcd.clear()
-lcd.write_string("Gesture Ready")
+lcd.message("Gesture Ready", 1)
 
 cap = cv2.VideoCapture(0)
 
@@ -69,6 +69,10 @@ with mp_hands.Hands(
 ) as hands:
 
     while True:
+        val = lgpio.gpio_read(chip, BUTTON_GPIO)
+        cap.read()
+        if val == 1:
+            continue
         ret, frame = cap.read()
         if not ret:
             continue
@@ -76,10 +80,9 @@ with mp_hands.Hands(
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = hands.process(rgb)
 
-        if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+        if 1:
             lcd.clear()
-            lcd.write_string("Processing...")
-            time.sleep(0.3)
+            lcd.message("Processing...",1)
 
             gesture = "NO HAND"
 
@@ -88,11 +91,9 @@ with mp_hands.Hands(
                 gesture = recognize_gesture(hand.landmark)
 
             lcd.clear()
-            lcd.write_string(gesture[:16])
+            lcd.message(gesture[:16], 1)
 
-            time.sleep(0.5)
 
-        cv2.imshow("Raspberry Gesture", frame)
         if cv2.waitKey(1) & 0xFF == 27:
             break
 

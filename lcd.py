@@ -2,10 +2,10 @@ import lgpio
 import time
 
 I2C_BUS = 1
-I2C_ADDR = 0x27
+I2C_ADDR = 0x3f
 
 chip = lgpio.gpiochip_open(0)
-i2c = lgpio.i2c_open(chip, I2C_BUS, I2C_ADDR)
+i2c = lgpio.i2c_open(chip, I2C_BUS, I2C_ADDR, 0)
 
 def lcd_toggle(bits):
     lgpio.i2c_write_byte(i2c, bits | 0x04)  # Enable

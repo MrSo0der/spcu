@@ -6,9 +6,9 @@ from smbus2 import SMBus
 # -------------------------
 # Настройки
 # -------------------------
-BUTTON_GPIO = 17          # GPIO номер, НЕ физический пин
+BUTTON_GPIO = 24          # GPIO номер, НЕ физический пин
 GPIO_CHIP = 0             # /dev/gpiochip0
-I2C_ADDR = 0x27           # Адрес вашего LCD1602
+I2C_ADDR = 0x3f           # Адрес вашего LCD1602
 I2C_BUS = 1               # Обычно 1 на Raspberry Pi
 
 # -------------------------
@@ -82,7 +82,7 @@ print("Ожидание нажатия кнопки...")
 while True:
     val = lgpio.gpio_read(chip, BUTTON_GPIO)
 
-    if val == 1:
+    if val == 0:
         print("Кнопка нажата!")
 
         # ---- Снимок ----
