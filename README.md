@@ -26,10 +26,12 @@ LCD1602 (с переходником на i2c):
 * SDA -> PIN3 (GPIO 2 (SDA))
 * SCL -> PIN5 (GPIO 3 (SCL))
 * GND -> PIN9 (Ground)
+
 Модуль кнопок:
 * VCC -> PIN17 (3V3 power)
 * GND -> PIN20 (Ground)
 * 1   -> PIN18 (GPIO 24)
+
 Камера:
 * Любой свободный USB-порт
 
