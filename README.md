@@ -2,7 +2,7 @@
 
 Данный набор скриптов разработан для распознавания жестов с камеры, подключенной к Raspberry Pi 5, и вывода названия жеста на экран LCD1602 по нажатию кнопки.
 
-Модуль `LCD.py` взят из [данного репозитория](github.com/sterlingbeason/LCD-1602-I2C.git).
+Модуль `LCD.py` взят из [данного репозитория](https://github.com/sterlingbeason/LCD-1602-I2C).
 
 Для обучения MobileNetV2 был разработан [блокнот в Google Colab](https://colab.research.google.com/drive/1EI-H3IAU0FL_Vi79XL1-SvLszzMbDpq8?usp=sharing) на основе [статьи](https://blog.roboflow.com/how-to-train-mobilenetv2-on-a-custom-dataset/) и [датасета](https://www.kaggle.com/datasets/ritikagiridhar/2000-hand-gestures?resource=download).
 
